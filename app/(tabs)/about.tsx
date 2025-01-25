@@ -1,29 +1,83 @@
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
-import DateTimePicker from 'react-native-modal-datetime-picker';
-import { Platform as RNPlatform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStaticNavigation } from '@react-navigation/native';
+
+interface APIResponse {
+  ayana: string
+  gulika_kala: string
+  karna: string
+  masa: string
+  masaniyamaka: string
+  nakshatra: string
+  paksha: string
+  rahukala: string
+  ruthu: string
+  samvatsara: string
+  shraddha_tithi: string
+  sunrise: string
+  sunset: string
+  tithi: string
+  today_special: string
+  vasara: string
+  yamaganda_kala: string
+  yoga: string
+}
 
 const AboutScreen = () => {
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  // Function to show the date picker
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const fetchData = async (date: any) => {
+    const formData = new FormData();
+    const today = new Date(date);
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+    const reqPayload = `${year}-${month}-${day}`;
+    formData.append('date', reqPayload);
+    console.log('form', formData)
+    try {
+      const response = await fetch('http://13.233.159.139:8080/proxy', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json();
+      calenderData = result
+      setData(result);
+      SetLoading(false);
+      console.log('data', result)
+    } catch (error) {
+      console.error("error fetching data: ", error);
+      SetLoading(false);
+    }
+  };
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    const newDate = new Date(currentDate);
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(newDate.getDate()).padStart(2, '0');
+    const reqPayload = `${year}-${month}-${day}`;
+    console.log('ppp', reqPayload)
+    fetchData(reqPayload)
   };
 
-  // Function to hide the date picker
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const showMode = (currentMode: React.SetStateAction<string>) => {
+    setShow(true);
+    setMode(currentMode);
   };
 
-  // Function to handle the date selection
-  const handleConfirm = (date: React.SetStateAction<null>) => {
-    setSelectedDate(date);
-    hideDatePicker();
+  const showDatepicker = () => {
+    showMode('date');
   };
-  const [data, setData] = useState('');
+  
+  const [resdata, setData] = useState<APIResponse | null>(null);
+  const [loading, SetLoading] = useState(true);
   const formData = new FormData();
   const today = new Date();
   const year = today.getFullYear();
@@ -31,127 +85,107 @@ const AboutScreen = () => {
   const day = String(today.getDate()).padStart(2, '0');
   const reqPayload = `${year}-${month}-${day}`;
   formData.append('date', reqPayload);
+  let calenderData: {
+    ayana: string
+    gulika_kala: string
+    karna: string
+    masa: string
+    masaniyamaka: string
+    nakshatra: string
+    paksha: string
+    rahukala: string
+    ruthu: string
+    samvatsara: string
+    shraddha_tithi: string
+    sunrise: string
+    sunset: string
+    tithi: string
+    today_special: string
+    vasara: string
+    yamaganda_kala: string
+    yoga: string
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/proxy', {
-          method: 'POST',
-          body: formData,
-        })
-        const result = await response.text();
-        console.log('res', result)
-        setData(result);
-      } catch (error) {
-        console.error("error fetching data: ", error);
-      }
-    };
-    fetchData();
+    fetchData(new Date());
   }, []);
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(data, 'text/html');
-  // Use DOM methods to extract the value attribute
-  // Extract data from various elements
-  const moonImageSrc = doc.querySelector('.mmoonimg img')?.getAttribute('src');
-  const maasaNiyamaka = doc.querySelector('.manasa')?.innerHTML.trim().replace('<h3>Maasa Niyamaka</h3>', '');
-  const dateValue = doc.querySelector('input.mydate')?.getAttribute('value');
-  const samsInfo = doc.querySelector('.sams')?.innerHTML.trim().split(',').map(item => item.trim());
-  const thithi = doc.querySelector('.thithi')?.innerHTML.trim();
-  const dysInfo = doc.querySelector('.dys')?.innerHTML.trim().split('<br>').map(item => item.trim()); // Keeping <br> tags
-  const dharmashastraTitle = doc.querySelector('.mtitle h2')?.innerHTML.trim();
-  const dharmashastraDetails = doc.querySelector('.mtitle')?.innerHTML.trim().replace(dharmashastraTitle!, '').replace('<h2>', '').replace('</h2>', '').trim();
-  const sunrise = doc.querySelector('.suns .txt:nth-of-type(1)')?.innerHTML.trim().replace('Sunrise', '').replace('<h4></h4>', '').trim();
-  const sunset = doc.querySelector('.suns .txt:nth-of-type(2)')?.innerHTML.trim().replace('Sunset', '').replace('<h4></h4>', '').trim();
-  const shraadhaThithi = doc.getElementsByClassName('txt').item(2)?.innerHTML.trim().replace('<h4>Shraadha Thithi</h4>', '');
-  const rahukalam = doc.getElementsByClassName('txt').item(3)?.innerHTML.trim().replace('<h4>Rahukalam</h4>', '');
-  const gulikalam = doc.getElementsByClassName('txt').item(4)?.innerHTML.trim().replace('<h4>Gulikalam</h4>', '');
-  const yamagandam = doc.getElementsByClassName('txt').item(5)?.innerHTML.trim().replace('<h4>Yamagandam</h4>', '');
-
-  // Output the extracted data
-  console.log('Moon Image Source:', moonImageSrc);
-  console.log('Maasa Niyamaka:', maasaNiyamaka);
-  console.log('Date Value:', dateValue);
-  console.log('Sams Info:', samsInfo);
-  console.log('Thithi:', thithi);
-  console.log('Dys Info:', dysInfo);
-  console.log('Dharmashastra Title:', dharmashastraTitle);
-  console.log('Dharmashastra Details:', dharmashastraDetails);
-  console.log('Sunrise:', sunrise);
-  console.log('Sunset:', sunset);
-  console.log('Shraadha Thithi:', shraadhaThithi);
-  console.log('Rahukalam:', rahukalam);
-  console.log('Gulikalam:', gulikalam);
-  console.log('Yamagandam:', yamagandam);
+  // Convert the HTML string to HTML content
   const panchangaArray1 = ['Ayana', 'Masa', 'Masa Niyamaka', 'Vasara', 'Yoga', 'Shradha tithi', 'Gulika Kala'];
-  const panchangaArray2 = ['Ruthu', 'Paksha', 'Tithi', 'Nakshatra', 'Karna', 'Rahu Kala', 'Yamaganda Kala']
-  const valueArray1 = [samsInfo?.[1], samsInfo?.[3], maasaNiyamaka, dysInfo?.[0], dysInfo?.[2], shraadhaThithi, gulikalam]
-  const valueArray2 = [samsInfo?.[2], samsInfo?.[4], thithi, dysInfo?.[1], dysInfo?.[3], rahukalam, yamagandam]
+  const panchangaArray2 = ['Ruthu', 'Paksha', 'Tithi', 'Nakshatra', 'Karna', 'Rahu Kala', 'Yamaganda Kala'];
+  const valueArray1 = [resdata?.ayana, resdata?.masa, resdata?.masaniyamaka, resdata?.vasara, resdata?.yoga, resdata?.shraddha_tithi, resdata?.gulika_kala];
+  const valueArray2 = [resdata?.ruthu, resdata?.paksha, resdata?.tithi, resdata?.nakshatra, resdata?.karna, resdata?.rahukala, resdata?.yamaganda_kala]
+  if (loading) {
+    return <View>
+      <Text>
+        Loading...
+      </Text>
+    </View>
+
+  }
   return (
     <View style={styles.mainPage}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ marginBottom: 20 }}>
-        {selectedDate ? selectedDate : 'Select a Date'}
+      <SafeAreaView>
+      <Button onPress={showDatepicker} title="Change Date" />
+      <Text>{reqPayload}</Text>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          onChange={onChange}
+        />
+      )}
+    </SafeAreaView>
+    <View style={styles.midsection}>
+      <Text style={styles.midsectionSide}>
+        <Ionicons style={styles.icon} name='sunny-outline' />
+        {resdata?.sunrise}
       </Text>
-
-      {/* Button to show the date picker */}
-      <TouchableOpacity onPress={showDatePicker} style={{ padding: 10, backgroundColor: '#007BFF', borderRadius: 5 }}>
-        <Text style={{ color: '#fff' }}>Pick a Date</Text>
-      </TouchableOpacity>
-
-      {/* Date Picker Modal */}
-      <DateTimePicker
-        isVisible={isDatePickerVisible}
-        mode="date"
-        date={selectedDate || new Date()}
-        onCancel={hideDatePicker}
-      />
+      <Text style={styles.midsectionCenter}>
+        {resdata?.samvatsara}
+      </Text>
+      <Text style={styles.midsectionSide}>
+        <Ionicons style={styles.icon} name='partly-sunny-sharp' />
+        {resdata?.sunset}
+      </Text>
     </View>
-      <View style={styles.midsection}>
-        <Text style={styles.midsectionSide}>
-          <Ionicons style={styles.icon} name='sunny-outline' />
-          {sunrise}
-        </Text>
-        <Text style={styles.midsectionCenter}>
-          {samsInfo?.[0]}
-        </Text>
-        <Text style={styles.midsectionSide}>
-          <Ionicons style={styles.icon} name='partly-sunny-sharp' />
-          {sunset}
-        </Text>
-      </View>
-      <View style={styles.container}>
-        {/* First column for panchangaArray1 */}
-        <View style={styles.column}>
-          {Array.from(panchangaArray1).map((el, _index) => (
-            <View style={styles.row} key={`row1-${_index}`}>
-              <View style={styles.cell}>
-                <Text>{el}</Text>
-                <Text>{valueArray1[_index]}</Text>
-              </View>
+    <View style={styles.container}>
+      {/* First column for panchangaArray1 */}
+      <View style={styles.column}>
+        {Array.from(panchangaArray1).map((el, _index) => (
+          <View style={styles.row} key={`row1-${_index}`}>
+            <View style={styles.cell}>
+              <Text>{el}</Text>
+              <Text>{valueArray1[_index]}</Text>
             </View>
-          ))}
-        </View>
+          </View>
+        ))}
+      </View>
 
-        {/* Second column for panchangaArray2 */}
-        <View style={styles.column}>
-          {Array.from(panchangaArray2).map((el, _index) => (
-            <View style={styles.row} key={`row2-${_index}`}>
-              <View style={styles.cell}>
-                <Text>{el}</Text>
-                <Text>{valueArray2[_index]}</Text>
-              </View>
+      {/* Second column for panchangaArray2 */}
+      <View style={styles.column}>
+        {Array.from(panchangaArray2).map((el, _index) => (
+          <View style={styles.row} key={`row2-${_index}`}>
+            <View style={styles.cell}>
+              <Text>{el}</Text>
+              <Text>{valueArray2[_index]}</Text>
             </View>
-          ))}
-        </View>
+          </View>
+        ))}
       </View>
-      <View style={styles.lastSection}>
-        <Text>
-          Today's Special
-        </Text>
-        <Text>
-          {dharmashastraDetails}
-        </Text>
       </View>
+      <View>
+        <Text>asaslsakslk</Text>
+      </View>
+    <View style={styles.lastSection}>
+      <Text>
+        Today's Special
+      </Text>
+      <Text>
+        {resdata?.today_special}
+      </Text>
     </View>
+  </View>
   )
 }
 
