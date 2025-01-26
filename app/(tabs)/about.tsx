@@ -26,6 +26,20 @@ interface APIResponse {
   yoga: string
 }
 
+const DayConverter = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
+const dayToDate = (day: any) => {
+  return DayConverter[day];
+}
+
 const AboutScreen = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
@@ -38,7 +52,6 @@ const AboutScreen = () => {
     const day = String(today.getDate()).padStart(2, '0');
     const reqPayload = `${year}-${month}-${day}`;
     formData.append('date', reqPayload);
-    console.log('form', formData)
     try {
       const response = await fetch('http://13.233.159.139:8080/proxy', {
         method: 'POST',
@@ -54,6 +67,7 @@ const AboutScreen = () => {
     }
   };
   const onChange = (event: any, selectedDate: any) => {
+    SetLoading(true);
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
@@ -65,6 +79,13 @@ const AboutScreen = () => {
     fetchData(reqPayload)
   };
 
+  const formatDate = (date: any) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const showMode = (currentMode: React.SetStateAction<string>) => {
     setShow(true);
     setMode(currentMode);
@@ -72,6 +93,16 @@ const AboutScreen = () => {
 
   const showDatepicker = () => {
     showMode('date');
+  };
+
+  const changeDate = (days: any) => {
+    SetLoading(true);
+    setDate((prevDate: any) => {
+      const newDate = new Date(prevDate);
+      newDate.setDate(newDate.getDate() + days); // Add or subtract days
+      fetchData(newDate)
+      return newDate;
+    });
   };
   
   const [resdata, setData] = useState<APIResponse | null>(null);
@@ -112,8 +143,8 @@ const AboutScreen = () => {
   const valueArray1 = [resdata?.ayana, resdata?.masa, resdata?.masaniyamaka, resdata?.vasara, resdata?.yoga, resdata?.shraddha_tithi, resdata?.gulika_kala];
   const valueArray2 = [resdata?.ruthu, resdata?.paksha, resdata?.tithi, resdata?.nakshatra, resdata?.karna, resdata?.rahukala, resdata?.yamaganda_kala]
   if (loading) {
-    return <View>
-      <Text>
+    return <View style={styles.overlay}>
+      <Text style={styles.loadingText}>
         Loading...
       </Text>
     </View>
@@ -122,8 +153,34 @@ const AboutScreen = () => {
   return (
     <View style={styles.mainPage}>
       <SafeAreaView>
-        <Button onPress={showDatepicker} title="Change Date" />
-        <Text>{reqPayload}</Text>
+        {/* <TouchableOpacity onPress={showDatepicker}>
+          <Text>Change Date</Text>
+        </TouchableOpacity> */}
+        {/* Left Arrow */}
+        <View style={styles.dateNavigator}>
+          {/* Left Arrow */}
+          <TouchableOpacity
+            style={styles.arrowButton}
+            onPress={() => changeDate(-1)}
+          >
+            <Ionicons name="chevron-back-outline" size={20} />
+          </TouchableOpacity>
+
+          {/* Current Date */}
+          <TouchableOpacity onPress={showDatepicker}>
+            <Text style={styles.date}>
+              {formatDate(date)} - {dayToDate(date.getDay())}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Right Arrow */}
+          <TouchableOpacity
+            style={styles.arrowButton}
+            onPress={() => changeDate(1)}
+          >
+            <Ionicons name="chevron-forward-outline" size={20} />
+          </TouchableOpacity>
+        </View>
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -180,57 +237,96 @@ const AboutScreen = () => {
 
 const styles = StyleSheet.create({
   mainPage: {
-    display: 'flex',
-    justifyContent: 'center'
+    display: "flex",
+    justifyContent: "center",
   },
   container: {
-    flexDirection: 'row',  // Makes the columns side by side
-    justifyContent: 'space-between',  // Spacing between columns
+    flexDirection: "row", // Makes the columns side by side
+    justifyContent: "space-between", // Spacing between columns
   },
   midsection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row", // Horizontal layout
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    alignItems: "center", // Align vertically in the middle
+    justifyContent: "space-around", // Distribute space evenly between items
   },
   midsectionCenter: {
-    flex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: '600'
+    flex: 2, // Takes more space in the middle
+    textAlign: "center", // Centers text horizontally
+    fontWeight: "600",
   },
   midsectionSide: {
-    flex: 1,
-    justifyContent:'center'
+    flex: 1, // Takes equal space on the sides
+    textAlign: "center", // Centers text horizontally
+    alignItems: "center", // Aligns content vertically
   },
   icon: {
-    paddingRight: 2
+    marginRight: 4, // Adjust spacing between the icon and text
   },
   column: {
-    flex: 1,  // Ensures each column takes up equal space
+    flex: 1, // Ensures each column takes up equal space
     padding: 4,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
-    height: 50
+    height: 50,
   },
   cell: {
-    flex: 1,  // Each cell takes up equal width within the row
+    flex: 1, // Each cell takes up equal width within the row
     padding: 4,
     borderWidth: 1,
-    borderColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#ccc",
+    justifyContent: "center",
+    alignItems: "center",
   },
   lastSection: {
     // flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     paddingLeft: 10,
-    paddingTop: 10
-  }
+    paddingTop: 10,
+  },
+  date: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    alignItems: "center",
+    paddingTop: 5,
+    backgroundColor: "#CFC5BC",
+    borderRadius: 5,
+    paddingBottom: 3,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  dateNavigator: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingTop: 7,
+  },
+  dateText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#333",
+  },
+  arrowButton: {
+    padding: 10,
+  },
+  loadingText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Covers the entire screen
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000, // Ensures it appears above other components
+  },
 });
 
 

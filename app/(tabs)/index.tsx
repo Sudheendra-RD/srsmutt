@@ -4,27 +4,36 @@ import { Text, View, StyleSheet } from 'react-native';
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home screen</Text>
-      <Link href="/about" style={styles.button}>
-        Go to About screen
-      </Link>
+      <Text style={styles.text}>
+        Jagadguru Shriman Madhwacharya Moola maha Samsthana
+      </Text>
+      <Text style={styles.text}>
+        Shri Raghavendra Swamy Matha
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F2EFEC',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
+    backgroundColor: "#F2EFEC",
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-    color: '#fff',
+    paddingTop: 10,
+    fontSize: 18,
+    fontWeight: 300,
+    flex: 1,
+    color: "#333",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: 'center'
   },
   button: {
     fontSize: 20,
-    textDecorationLine: 'underline',
-    color: '#fff',
+    textDecorationLine: "underline",
+    color: "#fff",
   },
 });
