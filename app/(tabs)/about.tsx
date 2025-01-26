@@ -48,7 +48,6 @@ const AboutScreen = () => {
       calenderData = result
       setData(result);
       SetLoading(false);
-      console.log('data', result)
     } catch (error) {
       console.error("error fetching data: ", error);
       SetLoading(false);
@@ -63,7 +62,6 @@ const AboutScreen = () => {
     const month = String(newDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
     const day = String(newDate.getDate()).padStart(2, '0');
     const reqPayload = `${year}-${month}-${day}`;
-    console.log('ppp', reqPayload)
     fetchData(reqPayload)
   };
 
@@ -124,69 +122,60 @@ const AboutScreen = () => {
   return (
     <View style={styles.mainPage}>
       <SafeAreaView>
-      <Button onPress={showDatepicker} title="Change Date" />
-      <Text>{reqPayload}</Text>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          onChange={onChange}
-        />
-      )}
-    </SafeAreaView>
-    <View style={styles.midsection}>
-      <Text style={styles.midsectionSide}>
-        <Ionicons style={styles.icon} name='sunny-outline' />
-        {resdata?.sunrise}
-      </Text>
-      <Text style={styles.midsectionCenter}>
-        {resdata?.samvatsara}
-      </Text>
-      <Text style={styles.midsectionSide}>
-        <Ionicons style={styles.icon} name='partly-sunny-sharp' />
-        {resdata?.sunset}
-      </Text>
-    </View>
-    <View style={styles.container}>
-      {/* First column for panchangaArray1 */}
-      <View style={styles.column}>
-        {Array.from(panchangaArray1).map((el, _index) => (
-          <View style={styles.row} key={`row1-${_index}`}>
-            <View style={styles.cell}>
-              <Text>{el}</Text>
-              <Text>{valueArray1[_index]}</Text>
-            </View>
-          </View>
-        ))}
+        <Button onPress={showDatepicker} title="Change Date" />
+        <Text>{reqPayload}</Text>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            onChange={onChange}
+          />
+        )}
+      </SafeAreaView>
+      <View style={styles.midsection}>
+        <Text style={styles.midsectionSide}>
+          <Ionicons style={styles.icon} name="sunny-outline" />
+          {resdata?.sunrise}
+        </Text>
+        <Text style={styles.midsectionCenter}>{resdata?.samvatsara}</Text>
+        <Text style={styles.midsectionSide}>
+          <Ionicons style={styles.icon} name="partly-sunny-sharp" />
+          {resdata?.sunset}
+        </Text>
       </View>
+      <View style={styles.container}>
+        {/* First column for panchangaArray1 */}
+        <View style={styles.column}>
+          {Array.from(panchangaArray1).map((el, _index) => (
+            <View style={styles.row} key={`row1-${_index}`}>
+              <View style={styles.cell}>
+                <Text>{el}</Text>
+                <Text>{valueArray1[_index]}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
 
-      {/* Second column for panchangaArray2 */}
-      <View style={styles.column}>
-        {Array.from(panchangaArray2).map((el, _index) => (
-          <View style={styles.row} key={`row2-${_index}`}>
-            <View style={styles.cell}>
-              <Text>{el}</Text>
-              <Text>{valueArray2[_index]}</Text>
+        {/* Second column for panchangaArray2 */}
+        <View style={styles.column}>
+          {Array.from(panchangaArray2).map((el, _index) => (
+            <View style={styles.row} key={`row2-${_index}`}>
+              <View style={styles.cell}>
+                <Text>{el}</Text>
+                <Text>{valueArray2[_index]}</Text>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
+      <View style={styles.lastSection}>
+        <Text>Today's Special</Text>
+        <Text>{resdata?.today_special}</Text>
       </View>
-      <View>
-        <Text>asaslsakslk</Text>
-      </View>
-    <View style={styles.lastSection}>
-      <Text>
-        Today's Special
-      </Text>
-      <Text>
-        {resdata?.today_special}
-      </Text>
     </View>
-  </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -236,7 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lastSection: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     paddingLeft: 10,
