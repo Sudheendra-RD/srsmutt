@@ -1,0 +1,17 @@
+export const About = `
+Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of Hamsa naamaka Paramaatma, adorned, in the early phase of its history, by various Tapaswis and Rishis. Sri Madhwacharya, the proponent of Dwaita Vedanta, had formally launched this Mutt, with His Sishya, Sri Padmanabha Tirtha as its Prime Guru. Many scholarly Gurus and Tapaswis, such as, Sri Jayatirtha, Sri Ramachandra Tirtha, Sri Vibudhendra Tirtha, Sri Jitamitra Tirtha, Sri Raghunandana Tirtha, Sri Surendra Tirtha, Sri Vijayindra Tirtha, Sri Sudhindra Tirtha and Sri Raghavendra Tirtha, have embellished this Parampara, by taking upon the position of Main Pomtiff of this Mula Mutt. In view of the significant distinction of Sri Raghavendra Tirtha, to the mystic, spiritual and intellectual domains of human life, this Mutt came to be known as Sri Raghavendra Swamy Mutt, since the period of Sri Raghavendra Tirtha.
+
+Whatever be the claims of many other Mutts, Sri Raghavendra Swamy Mutt has been adored and heralded as the Main Mula Mutt in the tradition of Sri Madhwacharya.
+
+The prominent Pontiffs of this Mutt, who have contributed to the cause of propagation of Madhwa Philosophy by writing profound Books of Philosophy, and to that of realising the welfare of the devotees, in a committed manner, to name only a few are the following: Sri Yogindra Tirtha, Sri Surindra Tirtha, Sri Sumatindra Tirtha, Sri Upendra Tirtha, Sri Vadindra Tirtha, Sri Varadendra Tirtha, Sri Dhirendra Tirtha, Sri Sushilendra Tirtha, Sri Suvratindra Tirtha, Sri Suyamindra Tirtha, Sri Sujayindra Tirtha, Sri Sushamindra Tirtha and Sri Suyatindra Tirtha. The present Pithadhipati of this Glorious Parampara of Sri Raghavendra Swamy Mutt, is Sri Sri Subudhendra Tirtha.
+
+It is in Sri Raghavendra Swamy Mutt, that the Vigraha of Sri MulaRama, originally worshipped by Sri Chaturmukha Brahma, the Vigraha of Sri Digvijaya Rama, originally worshipped by Sri Madhvacharya, the Vigraha of Sri JayaRama, originally worshipped by Sri Jayatirtha, are being worshipped with devotion and gaiety, by the various Pontiffs, of this Parampara.
+
+There are many other Mutts, in the space of Madhva Philosophy, engaged in the tasks of propagating Madha Philosophy among the masses. To name only a few, these are the following: Ashtha Mathas (Eight Mutts) of Udupi owing their origination to the eight direct disciples of Sri Madhvacharya, Sri Sriapdaraja Mutt, deriving its name from its prominent Guru of its parampara, viz. Sri Sripadarajaru, Sri Vyasaraya Mutt, deriving its name from the illustrious guru of its parampara, viz. Sri Vyasaraya, and Sri Uttaradi Mutt, recognising its origination to Sri Vidyanidhi Tirtha and having Sri Raghuttama Tirtharu, as one of its prominent Pontiffs..
+
+The total of Madhwa disciples’ population, is spread over these different Mutts, as per their prime affiliation.
+
+It is worth noting that almost all Madhva devotees are the disciples of Sri Raghavendra Tirtharu, in so far as they seek the fulfilment of their worldly wishes, from the grace of Sri Raghavendra Tirtharu and also to the extent they seek knowledge from the profound Granthas of Sri Raghavendra Tirtharu.
+
+We pray Sri Raghavendra Tirtha, known as Kaliyuga Kamadhenu and Kaliyuga Kalpataru, to bestow His Grace on all His Devotees, for the fulfilment of their wishes and thereby for serving the cause of Human Happiness and Spiritual Realisation.
+`
