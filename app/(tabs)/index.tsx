@@ -1,39 +1,153 @@
-import { Text, View, StyleSheet } from 'react-native';
- import { Link } from 'expo-router'; 
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Dimensions, BackHandler } from 'react-native';
+import { Card, Button, Title, Paragraph } from 'react-native-paper';
+import { useEffect, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+
+const raghavendraImg = require('@/assets/images/rayaru.jpg');
+const moolaRamaImg = require("@/assets/images/moola-rama.jpg");
+const aboutData = require('../../constants/about');
+const moola = require("../../constants/moolarama");
 
 export default function Index() {
+  const [loading, SetLoading] = useState('');
+
+  const expandCard = (about: string) => {
+    SetLoading(about);
+  }
+
+  const backToHome = () => {
+    SetLoading('')
+  }
+
+  useEffect(() => {
+    const handleBackPress = () => {
+      backToHome()
+      return true; // Prevent default behavior
+    };
+
+    // Add event listener for the back button
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+    // Cleanup the event listener on component unmount
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+  }, []);
+
+  const { width: screenWidth } = Dimensions.get("window");
+  if (loading === 'about') {
+    return (
+      <View>
+        <TouchableOpacity>
+          <Ionicons
+            name="chevron-back-outline"
+            size={30}
+            style={styles.icons}
+            onPress={() => backToHome()}
+          />
+        </TouchableOpacity>
+        <ScrollView style={styles.scrollContainer}>
+          <Text style={styles.details}>{aboutData.About}</Text>
+        </ScrollView>
+      </View>
+    );
+  }
+  if (loading === "moola") {
+    return (
+      <View>
+        <TouchableOpacity>
+          <Ionicons
+            name="chevron-back-outline"
+            size={30}
+            style={styles.icons}
+            onPress={() => backToHome()}
+          />
+        </TouchableOpacity>
+        <ScrollView style={styles.scrollContainer}>
+          <Text style={styles.details}>{moola.moolaRama}</Text>
+        </ScrollView>
+      </View>
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        Jagadguru Shriman Madhwacharya Moola maha Samsthana
-      </Text>
-      <Text style={styles.text}>
-        Shri Raghavendra Swamy Matha
-      </Text>
+    <View>
+      <ScrollView style={styles.scrollContainer}>
+        <Card style={styles.container} onPress={() => expandCard("about")}>
+          <Card.Content>
+            <Title>Shri Raghavendra Swamy Matha</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={raghavendraImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of
+              Hamsa naamaka Paramaatma, adorned, in the early phase of its
+              history, by various Tapaswis and Rishis. Sri Madhwacharya, the
+              proponent of Dwaita Vedanta....
+            </Paragraph>
+          </Card.Content>
+        </Card>
+        <Card style={styles.container} onPress={() => expandCard("moola")}>
+          <Card.Content>
+            <Title>Moola Rama - History</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={moolaRamaImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              These idols got through Naraharithirtha and worshipped by Acharya
+              are very ancient, popularly known as “Chaturyugamurthis”. There
+              are references about their glorious past in Vasistha Ramayana,
+              Adhyatma Ramyana and Markandeya Purana. Both of these idols are
+              very beautiful. Any pious soul that takes a darshan of these
+              cannot but have profound devotion aroused...
+            </Paragraph>
+          </Card.Content>
+        </Card>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    backgroundColor: "#F2EFEC",
-    alignItems: "center",
-    justifyContent: "center",
+    alignContent: "center",
+    margin: 10,
   },
-  text: {
+  card: {
+    overflowY: "scroll",
+    maxHeight: "90%",
+  },
+  details: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    justifyContent: 'center',
+    textAlign: 'justify',
+    fontSize: 16
+  },
+  cardimg: {
+  },
+  scrollContainer: {
+    maxHeight: "98%", // Optional for restricting scroll area
+    flexGrow: 1, // Ensures scrolling content fits the screen
+  },
+  icons: {
     paddingTop: 10,
-    fontSize: 18,
-    fontWeight: 300,
-    flex: 1,
-    color: "#333",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: 'center'
+    paddingLeft: 5,
   },
-  button: {
-    fontSize: 20,
-    textDecorationLine: "underline",
-    color: "#fff",
-  },
+  textContent: {
+    textAlign: 'justify',
+    fontSize: 16
+  }
 });

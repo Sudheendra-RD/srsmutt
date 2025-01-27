@@ -15,8 +15,11 @@ export default function TabLayout() {
         headerTintColor: '#fff',
         tabBarStyle: {
           backgroundColor: '#F1852D',
-          
+          height: 60
         },
+        tabBarLabelStyle: {
+          fontSize: 16
+        }
     }}
     >
       <Tabs.Screen
