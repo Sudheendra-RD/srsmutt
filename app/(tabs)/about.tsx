@@ -1,9 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStaticNavigation } from '@react-navigation/native';
 
 interface APIResponse {
   ayana: string
@@ -137,6 +135,31 @@ const AboutScreen = () => {
   useEffect(() => {
     fetchData(new Date());
   }, []);
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  const onTouchStart = (e: any) => {
+    touchStartX = e.nativeEvent.pageX; // Initial horizontal position
+    touchStartY = e.nativeEvent.pageY; // Initial vertical position
+  };
+
+  const onTouchEnd = (e: any) => {
+    const touchEndX = e.nativeEvent.pageX; // Final horizontal position
+    const touchEndY = e.nativeEvent.pageY; // Final vertical position
+
+    const deltaX = touchStartX - touchEndX; // Horizontal distance
+    const deltaY = touchStartY - touchEndY; // Vertical distance
+
+    // Check if the gesture is more horizontal than vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 20) {
+        changeDate(1); // Swipe left
+      } else if (deltaX < -20) {
+        changeDate(-1); // Swipe right
+      }
+    }
+  };
   // Convert the HTML string to HTML content
   const panchangaArray1 = ['Ayana', 'Masa', 'Masa Niyamaka', 'Vasara', 'Yoga', 'Shradha tithi', 'Gulika Kala'];
   const panchangaArray2 = ['Ruthu', 'Paksha', 'Tithi', 'Nakshatra', 'Karna', 'Rahu Kala', 'Yamaganda Kala'];
@@ -150,8 +173,13 @@ const AboutScreen = () => {
     </View>
 
   }
+  let touchX = 0;
   return (
-    <View style={styles.mainPage}>
+    <View
+      style={styles.mainPage}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       <SafeAreaView>
         {/* <TouchableOpacity onPress={showDatepicker}>
           <Text>Change Date</Text>
@@ -165,7 +193,6 @@ const AboutScreen = () => {
           >
             <Ionicons name="chevron-back-outline" size={20} />
           </TouchableOpacity>
-
           {/* Current Date */}
           <TouchableOpacity onPress={showDatepicker}>
             <Text style={styles.date}>
@@ -194,12 +221,12 @@ const AboutScreen = () => {
       <View style={styles.midsection}>
         <Text style={styles.midsectionSide}>
           <Ionicons style={styles.icon} name="sunny-outline" />
-          {resdata?.sunrise}
+          <Text style={styles.iconText}>{resdata?.sunrise}</Text>
         </Text>
         <Text style={styles.midsectionCenter}>{resdata?.samvatsara}</Text>
         <Text style={styles.midsectionSide}>
           <Ionicons style={styles.icon} name="partly-sunny-sharp" />
-          {resdata?.sunset}
+          <Text style={styles.iconText}>{resdata?.sunset}</Text>
         </Text>
       </View>
       <View style={styles.container}>
@@ -208,8 +235,8 @@ const AboutScreen = () => {
           {Array.from(panchangaArray1).map((el, _index) => (
             <View style={styles.row} key={`row1-${_index}`}>
               <View style={styles.cell}>
-                <Text>{el}</Text>
-                <Text>{valueArray1[_index]}</Text>
+                <Text style={styles.sectionHeading}>{el}</Text>
+                <Text style={styles.sectionText}>{valueArray1[_index]}</Text>
               </View>
             </View>
           ))}
@@ -220,22 +247,28 @@ const AboutScreen = () => {
           {Array.from(panchangaArray2).map((el, _index) => (
             <View style={styles.row} key={`row2-${_index}`}>
               <View style={styles.cell}>
-                <Text>{el}</Text>
-                <Text>{valueArray2[_index]}</Text>
+                <Text style={styles.sectionHeading}>{el}</Text>
+                <Text style={styles.sectionText}>{valueArray2[_index]}</Text>
               </View>
             </View>
           ))}
         </View>
       </View>
       <View style={styles.lastSection}>
-        <Text>Today's Special</Text>
-        <Text>{resdata?.today_special}</Text>
+        <Text style={styles.sectionHeading}>Today's Special</Text>
+        <Text style={styles.sectionText}>{resdata?.today_special}</Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  box: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#4CAF50",
+    borderRadius: 10,
+  },
   mainPage: {
     display: "flex",
     justifyContent: "center",
@@ -254,29 +287,37 @@ const styles = StyleSheet.create({
   midsectionCenter: {
     flex: 2, // Takes more space in the middle
     textAlign: "center", // Centers text horizontally
-    fontWeight: "600",
+    fontWeight: "800",
+    fontSize: 18,
   },
   midsectionSide: {
     flex: 1, // Takes equal space on the sides
     textAlign: "center", // Centers text horizontally
     alignItems: "center", // Aligns content vertically
+    fontSize: 16,
   },
   icon: {
-    marginRight: 4, // Adjust spacing between the icon and text
+    marginRight: 5, // Adjust spacing between the icon and text
+  },
+  iconText: {
+    paddingLeft: 5
   },
   column: {
     flex: 1, // Ensures each column takes up equal space
-    padding: 4,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 5,
+    paddingRight: 5
   },
   row: {
     flexDirection: "row",
     marginBottom: 10,
-    height: 50,
+    height: 60,
   },
   cell: {
     flex: 1, // Each cell takes up equal width within the row
-    padding: 4,
-    borderWidth: 1,
+    padding: 2,
+    borderWidth: 3,
     borderColor: "#ccc",
     justifyContent: "center",
     alignItems: "center",
@@ -298,6 +339,7 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     paddingLeft: 5,
     paddingRight: 5,
+    fontSize: 16,
   },
   dateNavigator: {
     flexDirection: "row",
@@ -326,6 +368,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1000, // Ensures it appears above other components
+  },
+  containerX: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f4f4f8",
+  },
+  instructionText: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: "#333",
+  },
+  boxX: {
+    height: 120,
+    width: 120,
+    backgroundColor: "#b58df1",
+    borderRadius: 20,
+    marginBottom: 30,
+  },
+  sectionHeading: {
+    fontSize: 16,
+    fontWeight: "800",
+  },
+  sectionText: {
+    fontSize: 16,
   },
 });
 

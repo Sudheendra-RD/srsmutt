@@ -1,14 +1,6 @@
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link } from 'expo-router';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Dimensions, BackHandler } from 'react-native';
 import { Card, Button, Title, Paragraph } from 'react-native-paper';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CardDetails from '../screens/CardDetails';
-import { NavigationContainer } from '@react-navigation/native';
-import {
-  createStaticNavigation,
-  useNavigation,
-} from "@react-navigation/native";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
 const raghavendraImg = require('@/assets/images/rayaru.jpg');
@@ -26,6 +18,22 @@ export default function Index() {
   const backToHome = () => {
     SetLoading('')
   }
+
+  useEffect(() => {
+    const handleBackPress = () => {
+      backToHome()
+      return true; // Prevent default behavior
+    };
+
+    // Add event listener for the back button
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+    // Cleanup the event listener on component unmount
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+  }, []);
+
+  const { width: screenWidth } = Dimensions.get("window");
   if (loading === 'about') {
     return (
       <View>
@@ -62,36 +70,52 @@ export default function Index() {
   }
   return (
     <View>
-      <Card style={styles.container} onPress={() => expandCard("about")}>
-        <Card.Content>
-          <Title>Shri Raghavendra Swamy Matha</Title>
-        </Card.Content>
-        <Card.Cover style={styles.cardimg} source={raghavendraImg} />
-        <Card.Content>
-          <Paragraph>
-            Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of
-            Hamsa naamaka Paramaatma, adorned, in the early phase of its
-            history, by various Tapaswis and Rishis. Sri Madhwacharya, the
-            proponent of Dwaita Vedanta....
-          </Paragraph>
-        </Card.Content>
-      </Card>
-      <Card style={styles.container} onPress={() => expandCard("moola")}>
-        <Card.Content>
-          <Title>Moola Rama</Title>
-        </Card.Content>
-        <Card.Cover style={styles.cardimg} source={moolaRamaImg} />
-        <Card.Content>
-          <Paragraph>
-            These idols got through Naraharithirtha and worshipped by Acharya
-            are very ancient, popularly known as “Chaturyugamurthis”. There are
-            references about their glorious past in Vasistha Ramayana, Adhyatma
-            Ramyana and Markandeya Purana. Both of these idols are very
-            beautiful. Any pious soul that takes a darshan of these cannot but
-            have profound devotion aroused...
-          </Paragraph>
-        </Card.Content>
-      </Card>
+      <ScrollView style={styles.scrollContainer}>
+        <Card style={styles.container} onPress={() => expandCard("about")}>
+          <Card.Content>
+            <Title>Shri Raghavendra Swamy Matha</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={raghavendraImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of
+              Hamsa naamaka Paramaatma, adorned, in the early phase of its
+              history, by various Tapaswis and Rishis. Sri Madhwacharya, the
+              proponent of Dwaita Vedanta....
+            </Paragraph>
+          </Card.Content>
+        </Card>
+        <Card style={styles.container} onPress={() => expandCard("moola")}>
+          <Card.Content>
+            <Title>Moola Rama - History</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={moolaRamaImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              These idols got through Naraharithirtha and worshipped by Acharya
+              are very ancient, popularly known as “Chaturyugamurthis”. There
+              are references about their glorious past in Vasistha Ramayana,
+              Adhyatma Ramyana and Markandeya Purana. Both of these idols are
+              very beautiful. Any pious soul that takes a darshan of these
+              cannot but have profound devotion aroused...
+            </Paragraph>
+          </Card.Content>
+        </Card>
+      </ScrollView>
     </View>
   );
 }
@@ -108,18 +132,22 @@ const styles = StyleSheet.create({
   details: {
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    textAlign: 'justify',
+    fontSize: 16
   },
   cardimg: {
-    width: "100%",
-    height: 150,
   },
   scrollContainer: {
-    maxHeight: "94%", // Optional for restricting scroll area
+    maxHeight: "98%", // Optional for restricting scroll area
     flexGrow: 1, // Ensures scrolling content fits the screen
   },
   icons: {
     paddingTop: 10,
     paddingLeft: 5,
   },
+  textContent: {
+    textAlign: 'justify',
+    fontSize: 16
+  }
 });
