@@ -4,16 +4,21 @@
     "slug": "srsmutt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/img.png",
+    "icon": "./assets/images/srsmutt-logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/srsmutt-logo.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/img.png",
+        "foregroundImage": "./assets/images/srsmutt-logo.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -23,16 +28,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true

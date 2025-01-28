@@ -180,7 +180,7 @@ const AboutScreen = () => {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <SafeAreaView>
+      <SafeAreaView style={styles.dateSection}>
         {/* <TouchableOpacity onPress={showDatepicker}>
           <Text>Change Date</Text>
         </TouchableOpacity> */}
@@ -263,11 +263,9 @@ const AboutScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  box: {
-    width: 200,
-    height: 200,
-    backgroundColor: "#4CAF50",
-    borderRadius: 10,
+  dateSection: {
+    backgroundColor: "#CFC5BC",
+    paddingBottom: 5
   },
   mainPage: {
     display: "flex",
@@ -300,14 +298,14 @@ const styles = StyleSheet.create({
     marginRight: 5, // Adjust spacing between the icon and text
   },
   iconText: {
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   column: {
     flex: 1, // Ensures each column takes up equal space
     paddingTop: 2,
     paddingBottom: 2,
     paddingLeft: 5,
-    paddingRight: 5
+    paddingRight: 5,
   },
   row: {
     flexDirection: "row",
@@ -379,13 +377,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
     color: "#333",
-  },
-  boxX: {
-    height: 120,
-    width: 120,
-    backgroundColor: "#b58df1",
-    borderRadius: 20,
-    marginBottom: 30,
   },
   sectionHeading: {
     fontSize: 16,
