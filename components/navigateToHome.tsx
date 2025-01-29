@@ -1,6 +1,6 @@
 
-import { View, Text, BackHandler } from "react-native";
-import React, { useEffect, useState } from "react";
+import { BackHandler } from "react-native";
+import React from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 

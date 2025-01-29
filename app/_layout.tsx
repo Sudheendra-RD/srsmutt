@@ -8,7 +8,7 @@ import ContactUs from './drawerSections/info/ContactUs';
 import GoShala from './drawerSections/info/GoShala';
 import Vidyapeetha from './drawerSections/info/Vidyapeetha';
 import DasaSahityaMuseum from './drawerSections/info/DasaSahityaMuseum';
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 const Drawer = createDrawerNavigator();
