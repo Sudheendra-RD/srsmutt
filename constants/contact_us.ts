@@ -1,0 +1,110 @@
+const contactList = [
+    {
+        id: "0",
+        name: "Shri Raghavendra Swamy Mutt",
+        description: "Mantralaya, Adoni(Dt), Kurnool District, Andhra Pradesh, India",
+        phone: "+91-08512-279459",
+        email: "onlineservices@srsmatha.org",
+    },
+    {
+        id: "1",
+        name: "Technical Assistance",
+        description: "For Online Services",
+        phone: "+91 6361602944",
+        email: "onlineservices@srsmatha.org",
+    },
+    {
+        id: "2",
+        name: "Religious Section / Public Relation Office",
+        description: "For Information on Sevas and other contributions in kind",
+        phone: "08512-279700",
+    },
+    {
+        id: "3",
+        name: "Shashwatha Seva (S.E.D) Prasada Despatch Section",
+        description: "Administrative Office",
+        phone: "08512-279459",
+    },
+    {
+        id: "4",
+        name: "Shishya Vicharana Karyalaya",
+        description: "General Inquiries",
+        phone: "08512-280048",
+    },
+    {
+        id: "5",
+        name: "Accounts Department",
+        description: "Information on Offline Donations sent and Receipts to be received",
+        phone: "08512-279459 (Ext-31)",
+        email: "srsmutt@gmail.com",
+        fax: "08512-279889 / 08512-279600",
+    },
+    {
+        id: "6",
+        name: "Accommodation - Reception Officer",
+        description: "I. Narashima Murthy, Reception Officer",
+        phone: "08512-279659",
+    },
+    {
+        id: "7",
+        name: "Central Reception Office ‘A’ Wing",
+        description: "Main Reception",
+        phone: "+91-8904386590",
+    },
+    {
+        id: "8",
+        name: "Brindavana Garden Guest House (BG)",
+        description: "Guest Accommodation",
+        phone: "+91-8660802864",
+    },
+    {
+        id: "9",
+        name: "Vijayeendra Vasathi Gruha (VVG)",
+        description: "Accommodation Facility (100 Rooms)",
+        phone: "Not Available",
+    },
+    {
+        id: "10",
+        name: "Dheerendra Vasathi Gruha (DVG)",
+        description: "Accommodation Facility (100 Rooms)",
+        phone: "Not Available",
+    },
+    {
+        id: "11",
+        name: "Susheelendra Vasathi Gruha (SVG)",
+        description: "Accommodation Facility (100 Rooms)",
+        phone: "Not Available",
+    },
+    {
+        id: "12",
+        name: "Suyateendra Vishranthi Nilaya (SVN)",
+        description: "Accommodation Facility (200 Rooms)",
+        phone: "+91-8951874590",
+    },
+    {
+        id: "13",
+        name: "Sri Sujayeendra Arogya Shala",
+        description: "Medical Facility, Raichur Road, Mantralayam 518 345",
+        phone: "Not Available",
+    },
+    {
+        id: "14",
+        name: "Dr. Gopal Archak, Medical Superintendent",
+        description: "Medical Services",
+        phone: "08512-279644",
+    },
+    {
+        id: "15",
+        name: "Reception & Ambulance",
+        description: "Emergency Medical Assistance",
+        phone: "08512-279487",
+    },
+    {
+        id: "16",
+        name: "Gurusarvabhouma Vidyapeetha",
+        description: "For enquiries on Gurusarvabhouma Vidyapeetha",
+        phone: "08512-279711 / 8500688992 / 08512-279496",
+    },
+];
+
+export default contactList;

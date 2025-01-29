@@ -92,20 +92,20 @@ const CustomDrawerContent = (props: any) => (
     />
 
     {/* Section 2: Go Shala, Vidyapeetha, Dasa Sahitya Museum */}
-    <Text style={styles.sectionTitle}>Projects</Text>
+    <Text style={styles.sectionTitle}>Project Initiatives</Text>
     <DrawerItem
       label="Go Shala"
       onPress={() => props.navigation.navigate("Go Shala")}
       style={styles.sectionItems}
     />
     <DrawerItem
-      label="Vidyapeetha"
-      onPress={() => props.navigation.navigate("Vidyapeetha")}
+      label="Gurusarvabhouma Vidyapeetham"
+      onPress={() => props.navigation.navigate("Gurusarvabhouma Vidyapeetham")}
       style={styles.sectionItems}
     />
     <DrawerItem
-      label="Dasa Sahitya Museum"
-      onPress={() => props.navigation.navigate("Dasa Sahitya Museum")}
+      label="Dasa Sahitya Project"
+      onPress={() => props.navigation.navigate("Dasa Sahitya Project")}
       style={styles.sectionItems}
     />
   </DrawerContentScrollView>
@@ -118,8 +118,11 @@ export default function RootLayout() {
       <Drawer.Screen name="Branches" component={Branches} />
       <Drawer.Screen name="Contact Us" component={ContactUs} />
       <Drawer.Screen name="Go Shala" component={GoShala} />
-      <Drawer.Screen name="Vidyapeetha" component={Vidyapeetha} />
-      <Drawer.Screen name="Dasa Sahitya Museum" component={DasaSahityaMuseum} />
+      <Drawer.Screen
+        name="Gurusarvabhouma Vidyapeetham"
+        component={Vidyapeetha}
+      />
+      <Drawer.Screen name="Dasa Sahitya Project" component={DasaSahityaMuseum} />
     </Drawer.Navigator>
   );
 }

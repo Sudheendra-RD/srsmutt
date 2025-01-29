@@ -1,0 +1,5 @@
+export const DasaSahitya = `
+In order to propagate Hindu dharma throughout the country by means of Dasasahitya, Sri Sri Subudhendra Theertharu, the present pontiff of Jagadguru Sriman Madhwacharya Moola Mahasamsthana Sri Raghavendra Swamy Matha initiated the Sri Guru Sarvabhouma Dasa Sahitya Project in March 2015, the holy day of the aaradhana of Sri Vyasarajaru as well as the aradhana of Sri Suyateendra Teertharu at Mantralaya with the grace and divine blessings of Sri Guru Raghavendra Swamy.
+"The project is aimed towards the growth of values propounded by Hindu culture by engaging the various Bhajana groups to instill the values of Bhakti, Dharma, Culture, in the minds and the environment of people."
+In order to showcase the richness of the movement, organizing Dasara Aaradhanas, summer camps, discourses, quizzes, Exhibhitions about dasaru would be undertaken in all cities, towns and villages. Pada-yaatra between major piligrim centres would also be organised.
+`
