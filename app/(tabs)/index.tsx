@@ -3,10 +3,12 @@ import { Card, Button, Title, Paragraph } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
-const raghavendraImg = require('@/assets/images/rayaru.jpg');
+const raghavendraImg = require('@/assets/images/brindavana.jpg');
 const moolaRamaImg = require("@/assets/images/moola-rama.jpg");
+const parampareImg = require("@/assets/images/madhwacharya.jpg");
 const aboutData = require('../../constants/about');
 const moola = require("../../constants/moolarama");
+const parampare = require("../../constants/parampare")
 
 export default function Index() {
   const [loading, SetLoading] = useState('');
@@ -68,30 +70,30 @@ export default function Index() {
       </View>
     );
   }
+  if (loading === "parampare") {
+    return (
+      <View>
+        <TouchableOpacity>
+          <Ionicons
+            name="chevron-back-outline"
+            size={30}
+            style={styles.icons}
+            onPress={() => backToHome()}
+          />
+        </TouchableOpacity>
+        <ScrollView style={styles.parampare}>
+          {Array.from(parampare.guruParampare).map((el, _index) => (
+            <View style={styles.parampare} key={`row1-${_index}`}>
+              <Text style={styles.details}>- {el}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
   return (
     <View>
       <ScrollView style={styles.scrollContainer}>
-        <Card style={styles.container} onPress={() => expandCard("about")}>
-          <Card.Content>
-            <Title>Shri Raghavendra Swamy Matha</Title>
-          </Card.Content>
-          <Card.Cover
-            style={[
-              styles.cardimg,
-              { width: screenWidth, height: screenWidth * 0.5625 },
-            ]}
-            source={raghavendraImg}
-            resizeMode="contain"
-          />
-          <Card.Content>
-            <Paragraph style={styles.textContent}>
-              Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of
-              Hamsa naamaka Paramaatma, adorned, in the early phase of its
-              history, by various Tapaswis and Rishis. Sri Madhwacharya, the
-              proponent of Dwaita Vedanta....
-            </Paragraph>
-          </Card.Content>
-        </Card>
         <Card style={styles.container} onPress={() => expandCard("moola")}>
           <Card.Content>
             <Title>Moola Rama - History</Title>
@@ -115,6 +117,47 @@ export default function Index() {
             </Paragraph>
           </Card.Content>
         </Card>
+        <Card style={styles.container} onPress={() => expandCard("about")}>
+          <Card.Content>
+            <Title>Shri Raghavendra Swamy Matha</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={raghavendraImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              Sri Raghavendra Swamy Mutt belongs to the lineage (parampara) of
+              Hamsa naamaka Paramaatma, adorned, in the early phase of its
+              history, by various Tapaswis and Rishis. Sri Madhwacharya, the
+              proponent of Dwaita Vedanta....
+            </Paragraph>
+          </Card.Content>
+        </Card>
+        <Card style={styles.container} onPress={() => expandCard("parampare")}>
+          <Card.Content>
+            <Title>Guru Parampare</Title>
+          </Card.Content>
+          <Card.Cover
+            style={[
+              styles.cardimg,
+              { width: screenWidth, height: screenWidth * 0.5625 },
+            ]}
+            source={parampareImg}
+            resizeMode="contain"
+          />
+          <Card.Content>
+            <Paragraph style={styles.textContent}>
+              The Guru Parampara (Lineage of Saints) of Jagadguru
+              Srimanmadhvacharya Moola Maha Samsthana, Sri Raghavendra Swamy
+              Mutt....
+            </Paragraph>
+          </Card.Content>
+        </Card>
       </ScrollView>
     </View>
   );
@@ -132,22 +175,25 @@ const styles = StyleSheet.create({
   details: {
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: 'center',
-    textAlign: 'justify',
-    fontSize: 16
+    justifyContent: "center",
+    textAlign: "justify",
+    fontSize: 16,
   },
-  cardimg: {
-  },
+  cardimg: {},
   scrollContainer: {
     maxHeight: "98%", // Optional for restricting scroll area
     flexGrow: 1, // Ensures scrolling content fits the screen
+  },
+  parampare: {
+    maxHeight: "92%", // Optional for restricting scroll area
+    flexGrow: 1,
   },
   icons: {
     paddingTop: 10,
     paddingLeft: 5,
   },
   textContent: {
-    textAlign: 'justify',
-    fontSize: 16
-  }
+    textAlign: "justify",
+    fontSize: 16,
+  },
 });
