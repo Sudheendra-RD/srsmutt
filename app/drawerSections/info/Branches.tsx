@@ -1,61 +1,80 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import { navigateToHome } from '@/components/navigateToHome';
-import { allBranches } from '@/constants/branches';
+import { allBranches, IndianBranches } from '@/constants/branches';
 
 
 export default function Branches() {
   navigateToHome();
-  const muttBranches: string[][] = allBranches;
+  const muttBranches = allBranches;
+  const indianBranches = IndianBranches;
   return (
-    <ScrollView style={styles.container}>
-      {Array.from(muttBranches[0]).map((el, _index) => (
-        <View style={styles.cell} key={`row1-${_index}`}>
-          <Text style={styles.sectionHeading}>{el}</Text>
-        </View>
-      ))}
-      {Array.from(muttBranches[1]).map((el, _index) => (
-        <View style={styles.cell} key={`row2-${_index}`}>
-          <Text style={styles.sectionHeading1}>{el}</Text>
-        </View>
-      ))}
+    <ScrollView>
+      <Text style={styles.headerText}>International Branches</Text>
+      <FlatList
+        data={muttBranches}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.container}>
+            <Text style={styles.addressName}>{item.name}</Text>
+            <Text style={styles.addressDescription}>{item.description}</Text>
+            <Text style={styles.phone}>Phone: {item.phone}</Text>
+            <Text style={styles.email}>Email: {item.email}</Text>
+          </View>
+        )}
+      />
+      <Text style={styles.headerText}>Branches Across India</Text>
+      <FlatList
+        data={indianBranches}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.container}>
+            <Text style={styles.addressName}>{item.name}</Text>
+            <Text style={styles.addressDescription}>{item.description}</Text>
+            <Text style={styles.phone}>Phone: {item.phone}</Text>
+          </View>
+        )}
+      />
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  headerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    padding: 20,
+    backgroundColor: "#fff",
+    margin: 10,
+  },
   container: {
-    overflowY: "scroll",
-    maxHeight: "100%",
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5,
+    margin: 10,
   },
-  column: {
-    flexGrow: 1,
-    // overflowY: "95%",
+  addressName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
   },
-  cell: {
-    flex: 1, // Each cell takes up equal width within the row
-    padding: 2,
-    borderWidth: 3,
-    borderColor: "#ccc",
-    justifyContent: "center",
-    // alignItems: "center",
-  },
-  sectionHeading: {
+  addressDescription: {
     fontSize: 16,
-    textAlign: "justify",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    marginLeft: 5,
-    maxHeight: "100%",
+    marginBottom: 5,
   },
-  sectionHeading1: {
-    fontSize: 16,
-    // textAlign: "justify",
-    // justifyContent: "center",
-    // alignItems: "center",
-    // flexWrap: "wrap",
-    marginLeft: 5,
-    maxHeight: "100%",
+  phone: {
+    fontSize: 14,
+    color: "gray",
+    marginBottom: 3,
+  },
+  email: {
+    fontSize: 14,
+    color: "blue",
   },
 });
