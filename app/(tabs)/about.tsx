@@ -51,7 +51,7 @@ const AboutScreen = () => {
     const reqPayload = `${year}-${month}-${day}`;
     formData.append('date', reqPayload);
     try {
-      const response = await fetch('https://13.233.159.139:8080/proxy', {
+      const response = await fetch('http://13.233.159.139:8080/proxy', {
         method: 'POST',
         body: formData,
       })
